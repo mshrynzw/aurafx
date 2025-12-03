@@ -8,11 +8,15 @@ on:
 jobs:
   fetch-data:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
@@ -25,7 +29,7 @@ jobs:
           TWELVE_DATA_API_KEY: ${{ secrets.TWELVE_DATA_API_KEY }}
           SYMBOL: USD/JPY
           INTERVAL: 1h
-        run: npm run fetch-data
+        run: npx tsx scripts/fetch-data.ts
 
       - name: Commit and push data
         run: |

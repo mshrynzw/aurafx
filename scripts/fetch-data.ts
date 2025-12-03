@@ -1,11 +1,15 @@
 import { config } from 'dotenv';
 import { resolve } from 'path';
+import { existsSync } from 'fs';
 import { fetchCandleData, transformCandleData } from '../lib/twelve-data';
 import * as fs from 'fs';
 import * as path from 'path';
 
-// .env.localファイルを読み込む
-config({ path: resolve(process.cwd(), '.env.local') });
+// .env.localファイルが存在する場合のみ読み込む（GitHub Actionsでは環境変数から直接読み込む）
+const envLocalPath = resolve(process.cwd(), '.env.local');
+if (existsSync(envLocalPath)) {
+  config({ path: envLocalPath });
+}
 
 async function main() {
   const apiKey = process.env.TWELVE_DATA_API_KEY;

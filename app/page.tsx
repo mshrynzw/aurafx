@@ -96,9 +96,44 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Error Alert */}
+        {error && (
+          <Alert variant="destructive" className="mb-8">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Data Loading Error</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+
+        {/* Chart Card */}
+        <Card className="shadow-lg mb-8">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <BarChart3 className="w-5 h-5" />
+              Candlestick Chart
+            </CardTitle>
+            <CardDescription>USD/JPY 1-Hour Chart</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {data.length > 0 ? (
+              <CandlestickChart data={data} symbol="USD/JPY" />
+            ) : (
+              <Alert>
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>No Data Available</AlertTitle>
+                <AlertDescription>
+                  Data is required to display the chart. Please fetch data using GitHub Actions or run the
+                  <code className="px-1 py-0.5 bg-muted rounded mx-1">npm run fetch-data</code>
+                  command.
+                </AlertDescription>
+              </Alert>
+            )}
+          </CardContent>
+        </Card>
+        
         {/* Statistics Cards */}
         {stats && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <Card>
               <CardHeader className="pb-2">
                 <CardDescription>Current Price</CardDescription>
@@ -145,41 +180,6 @@ export default function Home() {
             </Card>
           </div>
         )}
-
-        {/* Error Alert */}
-        {error && (
-          <Alert variant="destructive" className="mb-8">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Data Loading Error</AlertTitle>
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
-
-        {/* Chart Card */}
-        <Card className="shadow-lg">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <BarChart3 className="w-5 h-5" />
-              Candlestick Chart
-            </CardTitle>
-            <CardDescription>USD/JPY 1-Hour Chart</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {data.length > 0 ? (
-              <CandlestickChart data={data} symbol="USD/JPY" />
-            ) : (
-              <Alert>
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>No Data Available</AlertTitle>
-                <AlertDescription>
-                  Data is required to display the chart. Please fetch data using GitHub Actions or run the
-                  <code className="px-1 py-0.5 bg-muted rounded mx-1">npm run fetch-data</code>
-                  command.
-                </AlertDescription>
-              </Alert>
-            )}
-          </CardContent>
-        </Card>
       </main>
     </div>
   );

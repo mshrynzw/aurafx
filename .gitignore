@@ -2,13 +2,6 @@
 
 # dependencies
 /node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
 
 # testing
 /coverage
@@ -32,6 +25,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.sample
 
 # vercel
 .vercel
@@ -39,3 +33,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# data
+data/*.json
+!data/.gitkeep

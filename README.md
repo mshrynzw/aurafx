@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AuraFX - FXトレードツール
 
-## Getting Started
+FXトレードのためのWebアプリケーションです。Twelve Dataから取得したデータを基に、ろうそく足チャートを表示し、トレード戦略の分析とアラート機能を提供します。
 
-First, run the development server:
+## 機能
+
+- 📊 ろうそく足チャートの表示（USD/JPY対応）
+- 🔄 GitHub Actionsによる定期データ取得
+- 📈 トレード戦略の作成と過去分析
+- 🔔 高精度な戦略に基づくアラート通知
+- 🧪 単体テスト・結合テスト対応
+
+## 技術スタック
+
+- **フレームワーク**: Next.js 16 (App Router)
+- **スタイリング**: Tailwind CSS
+- **UIコンポーネント**: shadcn/ui
+- **チャートライブラリ**: TradingView Lightweight Charts
+- **データ取得**: Twelve Data API
+- **テスト**: Jest + React Testing Library
+- **コード品質**: ESLint + Prettier
+
+## セットアップ
+
+### 1. 依存関係のインストール
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
+# または
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. 環境変数の設定
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`.env.sample`をコピーして`.env.local`を作成し、Twelve Data APIキーを設定してください：
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+cp .env.sample .env.local
+```
 
-## Learn More
+`.env.local`ファイルを編集：
 
-To learn more about Next.js, take a look at the following resources:
+```env
+TWELVE_DATA_API_KEY=your_actual_api_key_here
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Twelve Data APIキーは [https://twelvedata.com/](https://twelvedata.com/) で取得できます。
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 3. データの取得
 
-## Deploy on Vercel
+データを取得するには：
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+pnpm fetch-data
+# または
+npm run fetch-data
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 4. 開発サーバーの起動
+
+```bash
+pnpm dev
+# または
+npm run dev
+```
+
+ブラウザで [http://localhost:3000](http://localhost:3000) を開いてください。
+
+## GitHub Actionsの設定
+
+GitHub Actionsで自動的にデータを取得するには：
+
+1. リポジトリの Settings > Secrets and variables > Actions に移動
+2. "New repository secret" をクリック
+3. 以下のシークレットを追加：
+   - Name: `TWELVE_DATA_API_KEY`
+   - Value: あなたのTwelve Data APIキー
+
+これにより、毎時自動的にデータが取得され、リポジトリにコミットされます。
+
+## スクリプト
+
+- `pnpm dev` - 開発サーバーを起動
+- `pnpm build` - プロダクションビルド
+- `pnpm start` - プロダクションサーバーを起動
+- `pnpm lint` - ESLintでコードをチェック
+- `pnpm format` - Prettierでコードをフォーマット
+- `pnpm test` - テストを実行
+- `pnpm test:watch` - ウォッチモードでテストを実行
+- `pnpm test:coverage` - カバレッジレポートを生成
+- `pnpm fetch-data` - Twelve Dataからデータを取得
+
+## プロジェクト構造
+
+```
+aurafx/
+├── app/                    # Next.js App Router
+│   ├── page.tsx           # メインページ
+│   └── layout.tsx         # レイアウト
+├── components/            # Reactコンポーネント
+│   ├── chart/            # チャートコンポーネント
+│   └── ui/               # shadcn/uiコンポーネント
+├── lib/                  # ユーティリティ関数
+│   ├── twelve-data.ts   # Twelve Data API連携
+│   └── utils.ts          # 共通ユーティリティ
+├── scripts/              # スクリプト
+│   └── fetch-data.ts    # データ取得スクリプト
+├── data/                # データファイル（JSON）
+├── __tests__/           # テストファイル
+└── .github/
+    └── workflows/       # GitHub Actionsワークフロー
+```
+
+## ライセンス
+
+AGPL-3.0
+
+## 連絡先
+
+GitHub: [https://github.com/mshrynzw](https://github.com/mshrynzw)
